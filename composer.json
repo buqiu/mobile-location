@@ -1,0 +1,37 @@
+{
+    "name": "buqiu/mobile-location",
+    "description": "手机号码归属地详情查询",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "mobile",
+        "location",
+        "buqiu"
+    ],
+    "authors": [
+        {
+            "name": "董坤鸿",
+            "email": "249529979@qq.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10",
+        "alibabacloud/dytnsapi-20200217": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Buqiu\\MobileLocation\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LocationServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

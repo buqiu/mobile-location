@@ -1,36 +1,54 @@
 # mobile-location
 
-#### Description
-号码归属地查询
+## 介绍
+号码归属地查询，只支持（中国移动、中国电信、中国联通、中国广电）运营商
 
-#### Software Architecture
-Software architecture description
+## 环境
+```
+php >= 8.1
+composer >= 2.0
+```
 
-#### Installation
+## 使用
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 1.安装
+```
+composer require buqiu/mobile-location
+```
+#### 2.发布 location.php 配置文件
+```
+php artisan vendor:publish --tag=location
+```
+#### 3.在 config\app.php 找到 aliaes 数组，添加刚创建的类
+```
+'Location' =>   Buqiu\MobileLocation\Facades\LocationFacade::class
+```
+#### 3.配置 .env 文件
+```
+# 阿里云账号
+ALIBABA_CLOUD_ACCESS_KEY_ID=
+ALIBABA_CLOUD_ACCESS_KEY_SECRET=
 
-#### Instructions
+# 号码百科
+ALI_MOBILE_LOCATION_AUTH_CODE=
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# 第三方号码归属地服务
+THIRD_MOBILE_LOCATION_APP_CODE=
+```
 
-#### Contribution
+## 示例代码
+```php
+use Location;
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+Location::mobile('13100000000');
+```
 
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 返回值
+```php
+[
+    'Service' => '服务商[ali:阿里云,third:第三方]',
+    'Company' => '号码当前归属运营商',
+    'Province' => '省份',
+    'City' => '城市'
+]
+```
