@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Buqiu\MobileLocation;
 
+use Illuminate\Support\Str;
+
 class LocationService
 {
     /**
@@ -13,7 +15,7 @@ class LocationService
     {
         // 先使用第三方服务
         $thirdLocationData = ThirdMobileLocationService::analysisPhoneNumberLocation(phoneNumber: $phoneNumber);
-        if ($thirdLocationData) {
+        if (!empty($thirdLocationData)) {
             return self::_parseData($thirdLocationData);
         }
 
@@ -25,7 +27,7 @@ class LocationService
     {
         return [
             'Service' => $isFromAli ? 'ali' : 'third',
-            'Company' => $isFromAli ? $data['Carrier'] : $data['company'],
+            'Company' => $isFromAli ? $data['Carrier'] : (Str::length($data['company']) < 4 ? '中国'.$data['company'] : $data['company']),
             'Province' => $isFromAli ? $data['Province'] : $data['province'],
             'City' => $isFromAli ? $data['City'] : $data['city']
         ];

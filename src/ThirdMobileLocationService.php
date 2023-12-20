@@ -19,12 +19,16 @@ class ThirdMobileLocationService
     public static function analysisPhoneNumberLocation(string $phoneNumber): array
     {
         try {
-            $response = Http::withHeaders(['Authorization:APPCODE' => config('location.third.app_code')])->get(self::$api, ['n' => $phoneNumber]);
+            $response = Http::withHeaders(['Authorization' => 'APPCODE '.config('location.third.app_code')])->withoutVerifying()->get(self::$api, ['n' => $phoneNumber]);
             if (!$response->successful()) {
                 throw new \Exception(ThirdMobileLocationCode::from('UNKNOWN')->label());
             }
 
             $responseData = $response->json();
+            if (empty($responseData)) {
+                return [];
+            }
+
             $code = $responseData['code'];
             if (ThirdMobileLocationCode::SUCCESS->value != $code) {
                 throw new \Exception(ThirdMobileLocationCode::from($code)->label());
